@@ -1,0 +1,58 @@
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		
+		{% block socialmeta %}
+	    <meta property="og:url" content="{{app.baseURI}}/{{page.page}}" />
+	    <meta property="og:type" content="website" />
+	    <meta property="og:title" content="Satan Barbara" />
+	    <meta property="og:description" content="The first place to check for metal shows in Santa Barbara." />
+	    <meta property="og:image" content="{{app.baseURI}}/media/MOVEO_Logo.png" />
+		{% endblock %}
+		
+		<base href="{{ app.baseURI }}" />
+		
+		<link rel="shortcut icon" type="image/x-icon" href="media/SB_Icon.png">
+		<link rel="stylesheet" href="stylesheets/app.css" />		
+		
+		<script src="bower_components/foundation/js/vendor/modernizr.js"></script>
+
+		<script>
+			var apiURI = "//api." + location.origin.replace(/https?\:\/\/.*moveo/, "moveo");
+			var sb = {
+				"utilities": {
+					
+				}
+			};
+		</script>
+			
+		{% block head %}
+		    <title>Satan Barbara - {% block title %}{% endblock %}</title>
+		{% endblock %}
+	</head>
+  <body>
+	
+	<div id="sb-alert-container"></div>
+	
+	{% include "parts/header.html" %}
+	
+	<main id="app-content">
+	{% block content %}{% endblock %}
+	</main>
+
+	{% include "parts/footer.html" %}
+	
+	{% block modals %}{% endblock %}
+	
+	{% block scripts %}
+	    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+	    <script src="bower_components/foundation/js/foundation.min.js"></script>
+	    <script src="js/app.js"></script>
+	
+
+	{% endblock %}
+
+  </body>
+</html>

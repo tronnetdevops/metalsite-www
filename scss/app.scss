@@ -1,0 +1,150 @@
+
+@import "sb.additionals";
+@import "sb.variables";
+
+@import "sb.settings";
+
+@import "foundation";
+
+@import "sb.main.aesthetic";
+@import "sb.main.layout";
+
+@import "sb.modal.aesthetic";
+@import "sb.modal.layout";
+
+@import "sb.home.aesthetic";
+@import "sb.home.layout";
+
+@import "sb.acts.aesthetic";
+@import "sb.acts.layout";
+
+@import "sb.act.aesthetic";
+@import "sb.act.layout";
+
+@import "sb.events.aesthetic";
+@import "sb.events.layout";
+
+@import "sb.event.aesthetic";
+@import "sb.event.layout";
+
+@import "sb.splash.aesthetic";
+@import "sb.splash.layout";
+
+@import "sb.login.aesthetic";
+@import "sb.login.layout";
+
+@import "sb.register.aesthetic";
+@import "sb.register.layout";
+
+@import "../bower_components/fontawesome/scss/font-awesome";
+
+body{
+    font-weight: 600;
+    font-size: 12pt;
+	
+	color: white;
+
+	-moz-font-smoothing: antialiased;	
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	
+	a{
+
+	}
+	
+	a:hover{
+
+	}
+	
+	h1,h2,h3,h4,h5,h6,label{
+		color: white;
+	}
+	
+	h1{
+		display: block;
+		
+		font-size: 30px;
+		line-height: 1.25em;
+		font-weight: bold;
+	    letter-spacing: 1px;
+	}
+	
+	h2{
+		font-size: 24px;
+		text-transform: uppercase;
+		
+		line-height: 1.384615384615385em;
+		
+	    vertical-align: baseline;
+	    outline: 0;
+		
+		display: block;
+		
+		letter-spacing: 1px;
+		font-weight: 600;
+	}
+	
+	h5{
+	    text-transform: uppercase;
+	    letter-spacing: 1px;
+	
+		line-height: 1.571428571428571em;
+	
+	    vertical-align: baseline;
+	    outline: 0;
+	
+		display: block;
+	
+		font-size: 15px;
+		font-weight: 600;
+	
+	}
+
+	article{
+	
+		p{
+		    font-size: 14px;
+		    line-height: 26px;
+			font-weight: 400;
+		}
+	}
+}
+
+
+// Or selectively include components
+// @import
+//   "foundation/components/accordion",
+//   "foundation/components/alert-boxes",
+//   "foundation/components/block-grid",
+//   "foundation/components/breadcrumbs",
+//   "foundation/components/button-groups",
+//   "foundation/components/buttons",
+//   "foundation/components/clearing",
+//   "foundation/components/dropdown",
+//   "foundation/components/dropdown-buttons",
+//   "foundation/components/flex-video",
+//   "foundation/components/forms",
+//   "foundation/components/grid",
+//   "foundation/components/inline-lists",
+//   "foundation/components/joyride",
+//   "foundation/components/keystrokes",
+//   "foundation/components/labels",
+//   "foundation/components/magellan",
+//   "foundation/components/orbit",
+//   "foundation/components/pagination",
+//   "foundation/components/panels",
+//   "foundation/components/pricing-tables",
+//   "foundation/components/progress-bars",
+//   "foundation/components/reveal",
+//   "foundation/components/side-nav",
+//   "foundation/components/split-buttons",
+//   "foundation/components/sub-nav",
+//   "foundation/components/switches",
+//   "foundation/components/tables",
+//   "foundation/components/tabs",
+//   "foundation/components/thumbs",
+//   "foundation/components/tooltips",
+//   "foundation/components/top-bar",
+//   "foundation/components/type",
+//   "foundation/components/offcanvas",
+//   "foundation/components/visibility";

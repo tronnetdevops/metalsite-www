@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Act{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+	
+	<!-- May need to add some stuff later.. -->
+{% endblock %}
+
+{% block content %}
+    <section class="sb-venue-section sb-page-primary-section" id="sb-venue-section">
+
+		<article class="sb-venue-container sb-page-primary-container">
+			<div class="row">
+				<div class="small-8 columns">
+					<h1>{{venue['title']}}</h1>
+					{% if venue['subtitle'] is not empty %}
+						<h4>{{venue['subtitle']}}</h4>
+					{% endif %}
+				</div>
+				<div class="small-4 columns">
+					{% if session.is_auth and session.account.privilege_level >= 2 %}
+						<button data-reveal-id="sb-modal-add-venue" class="right">
+							<i class="fa fa-pencil"></i>
+							Edit Venue
+						</button>
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<article  style="height: 18em;">
+					    <input id="pac-input" class="controls" type="text" value="{{venue['title']}}" placeholder="Search Box">
+					    <div id="map"></div>
+					</article>
+					{% if venue['location_id'] %}
+					<div class="panel">
+						<em>{{venue['location']['full']}}</em>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<hr/>
+					<p>{{venue['description']}}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<h4>Events</h4>
+					<ul>
+					{% for event in venue['events'] %}
+						<li>
+							<a href="event/{{event['id']}}">{{event['title']}}</a>
+							<sub>{{event['attendees']|length == 1 ? '1 person' : (event['attendees']|length ~ 'people') }} attending!</sub>
+						</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</article>
+	</section>	
+{% endblock %}
+
+{% block modals %}
+	{% include "modals/add-venue.html" %}
+	
+	{% if venue['location_id'] == 0 %}
+	
+	<section id="sb-modal-venue-address" class="reveal-modal sb-modal-container" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+		<h2 id="modalTitle">Venue Address?</h2>
+		<p class="lead">Is the following address the correct location for <em>{{venue['title']}}</em>?</p>
+		<p>We like to keep our system up to date with the best results possible!</p>
+		<div class="panel alert">
+			<strong class="sb-modal-venue-address-field"></strong>
+		</div>
+		
+		<form name="venueAddress" action="request/updateVenueLocation">
+			
+			<input type="hidden" name="venue_id" value="{{venue['id']}}"/>
+			<input type="hidden" name="address" />
+			<input type="hidden" name="city" />
+			<input type="hidden" name="state" />
+			<input type="hidden" name="country" />
+			<input type="hidden" name="postal" />
+			
+			<button type="submit"> <i class="fa fa-pencil"></i> Yes This Location Is Correct</button>
+		</form>
+		<a class="close-reveal-modal" aria-label="Close">&#215;</a>
+	</section>
+	{% endif %}
+	
+{% endblock %}
+
+
+{% block scripts %}
+    {{ parent() }}
+	
+	{% include 'plugins/googlemaps-js-setup.html' %}
+	
+	{% if venue['location_id'] == 0 %}
+	<script>
+		$(function(){
+			$(sb.events.hub).on("googlemap-place-selected", function(e, data){
+				var fullAddress = data.formatted_address;
+				
+				if (data.address_components){
+					fullAddress = "";
+					
+					var address = data.address_components[0].short_name+' '+data.address_components[1].short_name;
+					$(document.forms.venueAddress.address).val(address);
+					
+					var city = data.address_components[2].short_name;
+					$(document.forms.venueAddress.city).val(city);
+					
+					var state = data.address_components[3].long_name;
+					$(document.forms.venueAddress.state).val(state);
+					
+					var country = data.address_components[4].long_name;
+					$(document.forms.venueAddress.country).val(country);
+					
+					var postal = data.address_components[5].short_name;
+					$(document.forms.venueAddress.postal).val(postal);
+					
+					fullAddress = address+", "+city+", "+state+" "+postal+", "+country;
+				}
+				
+				$(".sb-modal-venue-address-field").text(fullAddress);
+				$("#sb-modal-venue-address").foundation("reveal","open");
+			});
+		});
+	</script>
+	{% endif %}
+	
+{% endblock %}

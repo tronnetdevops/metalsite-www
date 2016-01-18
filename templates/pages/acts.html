@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Bands{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+	
+	<!-- May need to add some stuff later.. -->
+{% endblock %}
+
+{% block content %}
+    <section class="sb-acts-section sb-page-primary-section" id="sb-acts-section">
+
+		<article class="sb-acts-container sb-page-primary-container">
+			<div class="row">
+				<div class="small-8 columns">
+					<h1>Bands</h1>
+				</div>
+				<div class="small-4 columns">
+					{% if session.is_auth %}
+						<button data-reveal-id="sb-modal-add-event">
+							<i class="fa fa-plus"></i> Create Show
+						</button>
+					{% endif %}
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="small-12 columns">
+					{% for letter,letterActs in ordered %}
+						<div class="panel">
+						<h1>{{letter}}</h1>
+						{% for actID in letterActs %}
+							{% set act = acts[ actID ] %}
+							<div class="row">
+								<div class="small-12 columns">
+									<label>
+										<a href="act/{{act['id']}}">{{act['title']}}</a>
+									</label>
+								</div>
+							</div>
+						{% endfor %}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</article>
+		
+	</section>	
+{% endblock %}
+
+{% block modals %}
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ parent() }}
+
+{% endblock %}

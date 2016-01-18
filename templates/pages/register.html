@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}register{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+	<!-- May need to add some stuff later.. -->
+{% endblock %}
+
+{% block content %}
+    <section class="sb-register-section sb-page-primary-section" id="sb-register-section">
+
+		<article class="sb-register-container sb-page-primary-container">
+			<div class="row">
+				<div class="small-12 columns">
+					<h1>Create A New Account</h1>
+					
+				    <form id="sb-register-form" data-abide action="request/register" method="post">
+						<div class="email-field">
+							<label>Username <small>required</small>
+								<input type="text" name="username" maxlength="100" required>
+								<small class="error">Username is required and must be a valid email address.</small>
+							</label>
+						</div>
+						
+						<div class="email-field">
+							<label>Email <small>required</small>
+								<input type="email" name="email" maxlength="100" required>
+								<small class="error">Email is required and must be a valid email address.</small>
+							</label>
+						</div>
+						
+						<div class="email-field">
+							<label>Password <small>required</small>
+								<input type="password" name="password" maxlength="64" required>
+								<small class="error">Password is required.</small>
+							</label>
+						</div>
+						
+						<button type="submit" class="button">
+							<i class="fa fa-sing-in"></i>
+							Sign Up
+						</button>
+					</form>
+				</div>
+			</div>
+		</article>
+		
+	</section>	
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+{% endblock %}

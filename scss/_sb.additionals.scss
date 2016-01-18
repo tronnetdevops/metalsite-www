@@ -1,0 +1,11 @@
+
+@mixin filter-gradient($sart, $end, $fadeStart: 50%, $fadeEnd: 100%) {
+	background: #3b5998; /* Old browsers */
+	background: -moz-linear-gradient(left,  $sart $fadeStart, $end $fadeEnd); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop($fadeStart,$sart), color-stop($fadeEnd,$end)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left, $sart $fadeStart,$end $fadeEnd); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left, $sart $fadeStart,$end $fadeEnd); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left, $sart $fadeStart,$end $fadeEnd); /* IE10+ */
+	background: linear-gradient(to right, $sart $fadeStart,$end $fadeEnd); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$sart', endColorstr='$end',GradientType=1 ); /* IE6-9 */
+}

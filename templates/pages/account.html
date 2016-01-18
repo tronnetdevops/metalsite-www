@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Event{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+	
+	<!-- May need to add some stuff later.. -->
+{% endblock %}
+
+{% block content %}
+    <section class="sb-shows-section sb-page-primary-section" id="sb-shows-section">
+
+		<article class="sb-shows-container sb-page-primary-container">
+			<div class="row">
+				<div class="small-12 columns">
+					<h1>{{account['nickname'] is empty ? (account['fname'] ~ ' ' ~ account['lname']) : account['nickname']}}</h1>
+					
+					<hr/>
+					
+					<h4>Bands</h4>
+					<ul>
+					{% for act in account['acts'] %}
+						<li>
+							{{act['roles']|join(', ')}}: <a href="act/{{act['id']}}">{{act['title']}}</a>
+						</li>
+					{% endfor %}
+					</ul>
+					
+					<h4>Attending</h4>
+					<ul>
+					{% for event in account['attending'] %}
+						<li>
+							<a href="event/{{event['id']}}">{{event['title']}}</a>
+						</li>
+					{% endfor %}
+					</ul>
+					
+					<h4>Performing</h4>
+					<ul>
+					{% for performance in account['performances'] %}
+						<li>
+							<a href="event/{{performance['where']['id']}}">{{performance['where']['title']}}</a>
+							as
+							<a href="act/{{performance['as']['id']}}">{{performance['as']['title']}}</a>
+							@
+							{{performance['when']['slot']|date('h:ia', timezone="America/Los_Angeles")}}
+							
+						</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</article>
+		
+	</section>	
+{% endblock %}
+
+{% block modals %}
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ parent() }}
+
+{% endblock %}

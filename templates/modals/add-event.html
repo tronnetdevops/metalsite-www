@@ -1,0 +1,124 @@
+<section id="sb-modal-add-event" class="reveal-modal sb-modal-container" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+	<h2 id="modalTitle">Add Show.</h2>
+	<form id="manage-add-event-form" data-abide action="request/createEvent" method="post">
+		
+		
+		<ul class="accordion" id="sb-add-event-accordion" data-accordion>
+			<li class="accordion-navigation">
+				<a href="#sb-add-event-name-time-panel"><i class="fa fa-minus sb-add-event-accordion-toggle-state"></i> Name & Time</a>
+				<div id="sb-add-event-name-time-panel" class="content active">
+		
+					<div class="title-field">
+						<label>Title <small>required</small>
+							<input type="text" name="title" maxlength="255" required>
+							<small class="error">Email is required and must be a string.</small>
+						</label>
+					</div>
+		
+					<div class="subtitle-field">
+						<label>Subtitle
+							<input type="text" name="subtitle" maxlength="255">
+						</label>
+					</div>
+					
+					<hr/>
+					
+					<div class="start-field">
+						<label>Start
+							<input type="text" name="start"class="sb-add-show-start"  maxlength="255" required>
+							<small class="error">The event must have a start time.</small>
+						</label>
+					</div>
+		
+					<div class="end-field">
+						<label>End
+							<input type="text" name="end" class="sb-add-show-end" maxlength="255" required>
+							<small class="error">The event must have an end time.</small>
+						</label>
+					</div>
+					
+					
+				</div>
+			</li>
+			<li class="accordion-navigation">
+				<a href="#sb-add-event-venue-band-panel"><i class="fa fa-plus sb-add-event-accordion-toggle-state"></i> Venue & Bands</a>
+				<div id="sb-add-event-venue-band-panel" class="content">
+		
+					<div class="venue-field">
+						<label>Venue</label>
+						<div class="row">
+							<div class="small-8 columns">
+								<select class="sb-add-show-venue-select" name="venue" style="width: 90%"></select>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					
+					<div class="bands-field">
+						<label>Bands</label>
+						
+						<ol id="sb-add-event-bands-container">
+							<li>
+								<div class="row">
+									<div class="small-5 columns">
+										<select class="sb-add-show-bands-select" name="acts[]" style="width: 100%"></select>
+									</div>
+									<div class="small-5 columns">
+										<input type="text" name="slots[]"class="sb-add-show-band-slot" maxlength="255" required>
+									</div>
+								</div>
+							</li>
+						</ol>
+						<br/>
+						<button type="button" id="sb-add-event-bands-add-band-btn"><i class="fa fa-plus"></i> Add Another Band</button>
+					</div>
+					
+				</div>
+			</li>
+			<li class="accordion-navigation">
+				<a href="#sb-add-event-details-panel"><i class="fa fa-plus sb-add-event-accordion-toggle-state"></i> Details</a>
+				<div id="sb-add-event-details-panel" class="content">
+					<div class="description-field">
+						<label>Description
+							<textarea name="description" maxlength="1000"></textarea>
+						</label>
+					</div>
+		
+					<div class="instructions-field">
+						<label>Instructions
+							<textarea name="instructions" maxlength="1000"></textarea>
+						</label>
+					</div>
+		
+					<div class="price-field">
+						<label>Price
+							<input type="text" name="price" placeholder="Free">
+						</label>
+					</div>
+
+					<div class="price-field">
+						<label>Ticket URL
+							<input type="text" name="ticket_url" placeholder="http://">
+						</label>
+					</div>
+					
+					<div class="price-field">
+						<label>Age Restrictions</label>
+							<select name="age">
+								<option value="0" selected="selected">All Ages</option>
+								<option value="1">18+</option>
+								<option value="2">21+</option>
+							</select>
+						</label>
+					</div>
+				</div>
+			</li>
+		</ul>
+		
+		<br/>
+		
+		<button type="submit" id="manage-add-account-btn" class="right"><i class="fa fa-check"></i> Create Show</button>
+
+	</form>
+	<a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</section>

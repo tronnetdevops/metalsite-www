@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block title %}Shows{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+	
+	{% include 'plugins/datetimepicker-css-setup.html' %}
+	{% include 'plugins/select2-css-setup.html' %}
+	
+	<link rel="stylesheet" href="js/vendor/jquery-mobile-interactions/jquery-ui.min.css"/>
+	<link rel="stylesheet" href="js/vendor/jquery-mobile-interactions/jquery-ui.structure.min.css"/>
+	
+	<!-- May need to add some stuff later.. -->
+{% endblock %}
+
+{% block content %}
+    <section class="sb-events-section sb-page-primary-section" id="sb-events-section">
+
+		<article class="sb-events-container sb-page-primary-container">
+			<div class="row">
+				<div class="small-8 columns">
+					<h1>Shows</h1>
+				</div>
+				<div class="small-4 columns">
+					{% if session.is_auth %}
+						<button data-reveal-id="sb-modal-add-event" class="right">
+							<i class="fa fa-plus"></i> Create Show
+						</button>
+					{% endif %}
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="small-12 columns">
+					{% for day,times in dates %}
+						<div class="panel">
+						<h1>{{day|date('D, M d, Y', timezone="America/Los_Angeles")}}</h1>
+						{% for eventID in times %}
+							{% set event = events[ eventID ] %}
+							<hr/>
+								
+							<div class="row">
+								<div class="small-4 columns">
+									<h3><a href="event/{{event['id']}}">{{event['title']}}</a><h3>
+									<h6>{{event['start']|date('h:ia', timezone="America/Los_Angeles")}}
+										@
+									{% for venue in event['venues'] %}
+										<a href="venue/{{venue['id']}}">{{venue['title']}}</a>
+									{% endfor %}
+									</h6>
+								</div>
+								<div class="small-8 columns">
+									<ul>
+									{% for act in event['acts'] %}
+										<li>
+											{{act['slot']|date('h:ia', timezone="America/Los_Angeles")}}: <a href="act/{{act['id']}}">{{act['title']}}</a>
+										</li>
+									{% endfor %}
+									</ul>
+								</div>
+							</div>
+						{% endfor %}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</article>
+		
+	</section>	
+{% endblock %}
+
+{% block modals %}
+	{% include "modals/add-event.html" %}
+{% endblock %}
+
+
+{% block scripts %}
+    {{ parent() }}
+
+	{% include 'plugins/datetimepicker-js-setup.html' %}
+	{% include 'plugins/select2-js-setup.html' %}
+	
+	<script src="js/vendor/jquery-mobile-interactions/jquery-ui.min.js"></script>
+	
+	<script>
+		$(function(){
+			
+			$("#sb-add-event-bands-add-band-btn").on("click", function(){
+				var $container = $("#sb-add-event-bands-container");
+				var $newSelect = $('<li class="tab-title">'+
+					'<div class="row">'+
+						'<div class="small-5 columns">'+
+							'<select class="sb-add-show-bands-select" name="acts[]" style="width: 100%"></select>'+
+						'</div>'+
+						'<div class="small-5 columns">'+
+							'<input type="text" name="slots[]"class="sb-add-show-band-slot" maxlength="255" required>'+
+						'</div>'+
+					'</div>'+
+				'</li>');
+				
+				$newSelect.find(".sb-add-show-bands-select").select2({
+					"placeholder": "Select a band",
+					"allowClear": true,
+					"tags": true,
+					"tokenSeparators": [','],
+					"ajax": {
+						"url": "http://api.satanbarbara.loc/Search/Act/",
+						"dataType": "json",
+						"delay": 250,
+						"data": function (params) {
+							return {
+								"title": params.term, // search term
+								"page": params.page,
+								"limit": 7
+							};
+						},
+						"processResults": function (data, page) {
+							return {
+								"results": $.map(data.data, function(value, index) {
+								    return [{
+								    	"id": value.title,
+										"text": value.title
+								    }];
+								})
+							};
+						},
+						"cache": true
+					},
+					"minimumInputLength": 3
+				}).on("select2:select", function(e){
+
+					/**
+					 * @todo Maybe send this off to be created...
+					 */ 
+				});
+				
+				var newTime = new Date("2015/1/1 "+$container.find("input").last().val())
+				newTime.setHours( newTime.getHours() + 1 );
+				
+				$newSelect.find(".sb-add-show-band-slot").datetimepicker({
+					"inline": false,
+					"datepicker": false,
+					"weeks": false,
+					// "hours12": true,
+					"theme": "dark",
+					"format": 'h:i a',
+					"value": newTime
+				});
+				
+				$container.append($newSelect);
+			});
+			
+			$(".sb-add-show-band-slot").datetimepicker({
+				"inline": false,
+				"datepicker": false,
+				// "hours12": true,
+				"weeks": false,
+				"theme": "dark",
+				"format": 'h:i a',
+				"value": new Date()
+			});
+
+			
+		    $("#sb-add-event-accordion").on("toggled", function(event, accordion){
+				$(this).children().not( accordion.parent() ).find(".sb-add-event-accordion-toggle-state").removeClass("fa-minus").addClass("fa-plus");
+				accordion.parent().find(".sb-add-event-accordion-toggle-state").removeClass("fa-plus").addClass("fa-minus");
+		    });
+			
+			$(".sb-add-show-start").datetimepicker({
+				"inline": false,
+				"weeks": true,
+				// "hours12": true,
+				"theme": "dark",
+				"format": 'D, M d Y, h:i a',
+				"value": new Date(),
+			    "onClose":function( ct ){
+					ct.setHours( ct.getHours() + 1 );
+					
+					$(".sb-add-show-end").datetimepicker({ "value": ct });
+			    },
+			});
+			
+			$(".sb-add-show-end").datetimepicker({
+				"inline": false,
+				"weeks": true,
+				// "hours12": true,
+				"value": new Date(),
+				"theme": "dark",
+				"format": 'D, M d Y, h:i a',
+			    "onShow":function( ct ){
+					var val = $(".sb-add-show-start").val();
+					if (val){
+						this.setOptions({
+							"minDate": new Date(val)
+						});
+					} else {
+						this.setOptions({
+							"minDate": false
+						});
+					}
+
+
+			    }
+			});
+						
+			$("#sb-add-event-bands-container").sortable({
+				"placeholder": "ui-state-highlight",
+			    "change": function(event, ui){
+			    	console.log(this);
+			    }
+			});
+			
+			$(".sb-add-show-bands-select").select2({
+				"placeholder": "Select a band",
+				"allowClear": true,
+				"tags": true,
+				"tokenSeparators": [','],
+				"ajax": {
+					"url": "http://api.satanbarbara.loc/Search/Act/",
+					"dataType": "json",
+					"delay": 250,
+					"data": function (params) {
+						return {
+							"title": params.term, // search term
+							"page": params.page,
+							"limit": 7
+						};
+					},
+					"processResults": function (data, page) {
+						return {
+							"results": $.map(data.data, function(value, index) {
+							    return [{
+							    	"id": value.title,
+									"text": value.title
+							    }];
+							})
+						};
+					},
+					"cache": true
+				},
+				"minimumInputLength": 3
+			}).on("select2:select", function(e){
+
+				/**
+				 * @todo Maybe send this off to be created...
+				 */ 
+			});
+			
+			$(".sb-add-show-venue-select").select2({
+				"placeholder": "Select a venue",
+				"allowClear": true,
+				"tags": true,
+				"tokenSeparators": [','],
+				"ajax": {
+					"url": "http://api.satanbarbara.loc/Search/Venue/",
+					"dataType": "json",
+					"delay": 250,
+					"data": function (params) {
+						return {
+							"title": params.term, // search term
+							"page": params.page,
+							"limit": 7
+						};
+					},
+					"processResults": function (data, page) {
+						return {
+							"results": $.map(data.data, function(value, index) {
+							    return [{
+							    	"id": value.title,
+									"text": value.title
+							    }];
+							})
+						};
+					},
+					"cache": true
+				},
+				"minimumInputLength": 3
+			}).on("select2:select", function(e){
+
+				/**
+				 * @todo Maybe send this off to be created...
+				 */ 
+			});
+			
+			$(".sb-add-show-tags-select").select2({
+				"placeholder": "List of tags: Death Metal, Game Night",
+				"tags": true,
+				"tokenSeparators": [','],
+				"ajax": {
+					"url": "http://api.satanbarbara.loc/Search/Tag/",
+					"dataType": "json",
+					"delay": 250,
+					"data": function (params) {
+						return {
+							"title": params.term, // search term
+							"page": params.page,
+							"limit": 7
+						};
+					},
+					"processResults": function (data, page) {
+						return {
+							"results": $.map(data.data, function(value, index) {
+							    return [{
+							    	"id": value.title,
+									"text": value.title
+							    }];
+							})
+						};
+					},
+					"cache": true
+				},
+				"minimumInputLength": 3
+			}).on("select2:select", function(e){
+
+				/**
+				 * @todo Maybe send this off to be created...
+				 */ 
+			});
+		})
+	</script>
+
+{% endblock %}

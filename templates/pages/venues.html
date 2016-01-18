@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Venues{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+	
+	<!-- May need to add some stuff later.. -->
+{% endblock %}
+
+{% block content %}
+    <section class="sb-venues-section sb-page-primary-section" id="sb-venues-section">
+
+		<article class="sb-venues-container sb-page-primary-container">
+			<div class="row">
+				<div class="small-8 columns">
+					<h1>Venues</h1>
+				</div>
+				<div class="small-4 columns">
+					{% if session.is_auth %}
+						<button data-reveal-id="sb-modal-add-event">
+							<i class="fa fa-plus"></i> Create Venue
+						</button>
+					{% endif %}
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="small-12 columns">
+					{% for letter,letterActs in ordered %}
+						<div class="panel">
+						<h1>{{letter}}</h1>
+						{% for venueID in letterActs %}
+							{% set venue = venues[ venueID ] %}
+							<div class="row">
+								<div class="small-12 columns">
+									<label>
+										<a href="venue/{{venue['id']}}">{{venue['title']}}</a>
+									</label>
+								</div>
+							</div>
+						{% endfor %}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</article>
+		
+	</section>	
+{% endblock %}
+
+{% block modals %}
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ parent() }}
+
+{% endblock %}

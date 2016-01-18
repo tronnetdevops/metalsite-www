@@ -1,0 +1,40 @@
+<header id="header-container" role="header">
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+            <li class="name">
+                <h1><a href="home.html"><img src="media/satan.png" class="header-logo" /></a></h1>
+            </li>
+            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon">
+                <a href="home.html"><span></span></a>
+            </li>
+        </ul>
+		
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li class="nav-menu-button {{page.page=='home'?'active'}}"><a href="home">Home</a></li>
+                <li class="nav-menu-button {{page.page=='events'?'active'}}"><a href="events">Shows</a></li>
+                <li class="nav-menu-button {{page.page=='acts'?'active'}}"><a href="acts">Bands</a></li>
+                <li class="nav-menu-button {{page.page=='community'?'active'}}"><a href="community">Community</a></li>
+                <li class="nav-menu-button {{page.page=='radio'?'active'}}"><a href="radio">Radio</a></li>
+				{% if session.is_auth %}
+			        <li class="has-dropdown">
+						<a href="#">{{session['account']['nickname'] is empty ? (session['account']['fname']~' '~session['account']['lname']) : session['account']['nickname']}}</a>
+						<ul class="dropdown">
+							<li><a href="/request/logout">Logout</a></li>
+						</ul>
+			        </li>
+				{% else %}
+			        <li class="has-dropdown">
+						<a href="/login">Login</a>
+						<ul class="dropdown">
+							<li><a href="/register">Register</a></li>
+						</ul>
+			        </li>
+				{% endif %}
+            </ul>
+        </section>
+	</nav>
+</header>
+	

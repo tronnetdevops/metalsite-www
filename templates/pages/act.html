@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Act{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+	
+	<!-- May need to add some stuff later.. -->
+{% endblock %}
+
+{% block content %}
+    <section class="sb-act-section sb-page-primary-section" id="sb-act-section">
+
+		<article class="sb-act-container sb-page-primary-container">
+			<div class="row">
+				<div class="small-12 columns">
+					<h1>{{act['title']}}</h1>
+					
+					<hr/>
+					
+					<h4>Members</h4>
+					<ul>
+					{% for member in act['members'] %}
+						<li>
+							<a href="account/{{member['id']}}">{{member['nickname'] is empty ? member['fname']~' '~member['lname'] : member['nickname']}}</a>: 
+							{{member['roles']|join(', ')}}
+						</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</article>
+		
+	</section>	
+{% endblock %}
+
+{% block modals %}
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ parent() }}
+
+{% endblock %}

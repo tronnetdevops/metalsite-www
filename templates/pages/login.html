@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}register{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+	<!-- May need to add some stuff later.. -->
+{% endblock %}
+
+{% block content %}
+    <section class="sb-register-section sb-page-primary-section" id="sb-register-section">
+
+		<article class="sb-register-container sb-page-primary-container">
+			<div class="row">
+				<div class="small-12 columns">
+					<h1>Login</h1>
+					
+				    <form id="" data-abide action="request/login" method="post">
+						<div class="email-field">
+							<label>Email <small>required</small>
+								<input type="email" name="email" required>
+								<small class="error">Email is required and must be a valid email address.</small>
+							</label>
+						</div>
+						
+						<div class="email-field">
+							<label>Password <small>required</small>
+								<input type="password" name="password" required>
+								<small class="error">Password is required.</small>
+							</label>
+						</div>
+						
+						<button type="submit" class="button">
+							<i class="fa fa-sing-in"></i>
+							Login
+						</button>
+					</form>
+				</div>
+			</div>
+		</article>
+		
+	</section>	
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+{% endblock %}

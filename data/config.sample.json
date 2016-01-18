@@ -1,0 +1,35 @@
+{
+	"dev": {
+		"baseURI": "//www.satanbarbara.loc",
+		"basePath": ""
+	},
+	"prod": {
+		"baseURI": "//satanbarbara.com",
+		"basePath": "/var/www/satanbarbara.com"
+	},
+	"admin": {
+		"username": "",
+		"password": ""
+	},
+	"ses": {
+		"username": "",
+		"password": ""
+	},
+	"sendgrid": {
+		"username": "",
+		"password": ""
+	},
+	"uploads": {
+		"account": {
+			"avatar": {
+				"key": "",
+				"path": "/www/media/accounts"
+			}
+		}
+	},
+	"logs": {
+		"app": {
+			"path": "/resources/app/logs/app.log"
+		}
+	}
+}
